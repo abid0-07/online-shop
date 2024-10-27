@@ -1,0 +1,19 @@
+{
+  "name": "online-shop",
+  "version": "1.0.0",
+  "description": "In this project the front-end section is created with **HTML,CSS, Browser-side JavaScript**.  The back-end section is created with **Node.js, Express.js**. The database is created with **Mongo DB**.\r There will two types of users. One is admin and other is customer.  Admin can add, delete, update products. Customer can view products, add to cart, checkout.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "Abdullah Al Abid",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
