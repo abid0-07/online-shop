@@ -6,11 +6,9 @@ const expressSession = require('express-session');
 
 const createSessionConfig = require('./config/session');
 const db = require('./data/database');
-
-const checkAuthMiddleware = require('./middlewares/check-auth');
 const addCsrfTokenMiddleware = require('./middlewares/csrf-token');
-const errorHandlingMiddleware = require('./middlewares/error-handler');
-
+const errorHandlerMiddleware = require('./middlewares/error-handler');
+const checkAuthStatusMiddleware = require('./middlewares/check-auth');
 const authRoutes = require('./routes/auth.routes');
 const productsRoutes = require('./routes/products.routes');
 const baseRoutes = require('./routes/base.routes');
@@ -29,18 +27,19 @@ app.use(expressSession(sessionConfig));
 app.use(csrf());
 
 app.use(addCsrfTokenMiddleware);
-app.use(checkAuthMiddleware);
+app.use(checkAuthStatusMiddleware);
 
 app.use(baseRoutes);
 app.use(authRoutes);
 app.use(productsRoutes);
 
-app.use(errorHandlingMiddleware);
+app.use(errorHandlerMiddleware);
 
-db.connectToDatabase().
-    then(function () {
-        app.listen(3000);
-    }).catch(function (error) {
-        console.log('Failed to connect to the database');
-        console.log(error);
-    });
+db.connectToDatabase()
+  .then(function () {
+    app.listen(3000);
+  })
+  .catch(function (error) {
+    console.log('Failed to connect to the database!');
+    console.log(error);
+  });
