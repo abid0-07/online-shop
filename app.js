@@ -15,9 +15,9 @@ app.use(express.static('public'));
 app.use(authRoutes);
 
 db.connectToDatabase().
- then(function (){
-    app.listen(3000);
-}).catch(function(error){
-    console.log('Failed to connect to the database');
-    console.log(error);
-});
+    then(function () {
+        app.listen(3000);
+    }).catch(function (error) {
+        console.log('Failed to connect to the database');
+        console.log(error);
+    });
