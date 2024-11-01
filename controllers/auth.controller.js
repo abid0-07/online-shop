@@ -5,10 +5,21 @@ function getSignup(req, res) {
     res.render('customer/auth/signup');
 }
 
-async function signup(req, res) {
-    const user = new User(req.body.email, req.body.password, req.body.fullname, req.body.street, req.body.postal, req.body.city);
-
+async function signup(req, res, next) {
+  const user = new User(
+    req.body.email,
+    req.body.password,
+    req.body.fullname,
+    req.body.street,
+    req.body.postal,
+    req.body.city
+  );
+  try{
     await user.signup();
+  }catch(error){
+    next(error);
+    return;
+  }
 
     res.redirect('/login');
 }
