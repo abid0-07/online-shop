@@ -2,7 +2,7 @@
   "name": "web-dev-complete-guide",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
     "dev": "nodemon --watch ./ --ext js,json,ejs,css, html"
