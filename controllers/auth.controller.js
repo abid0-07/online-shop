@@ -3,11 +3,10 @@ const authUtil = require('../util/authentication');
 const validation = require('../util/validation');
 const sessionFlash = require('../util/session-flash');
 
-
 function getSignup(req, res) {
   let sessionData = sessionFlash.getSessionData(req);
 
-  if(!sessionData){
+  if (!sessionData) {
     sessionData = {
       email: '',
       confirmEmail: '',
@@ -15,10 +14,11 @@ function getSignup(req, res) {
       fullname: '',
       street: '',
       postal: '',
-      city: ''
+      city: '',
     };
   }
-  res.render('customer/auth/signup', { inputData: sessionData});
+
+  res.render('customer/auth/signup', { inputData: sessionData });
 }
 
 async function signup(req, res, next) {
@@ -27,26 +27,36 @@ async function signup(req, res, next) {
     confirmEmail: req.body['confirm-email'],
     password: req.body.password,
     fullname: req.body.fullname,
-    Street: req.body.street,
-    Postal: req.body.postal,
-    City: req.body.city
+    street: req.body.street,
+    postal: req.body.postal,
+    city: req.body.city,
   };
 
-  if (!validation.userDetailsAreValid(req.body.email,
-    req.body.password,
-    req.body.fullname,
-    req.body.street,
-    req.body.postal,
-    req.body.city) || !validation.emailIsConfirmed(req.body.email, req.body['confirm-email'])) {
-    sessionFlash.flashDataToSession(req, {
-      errorMessage: 'Please check your input. Password must be 6 characters long, postal code must be 5 characters long and email must match.',
-      ...enteredData
-    }, function () {
-
-      res.redirect('/signup');
-    });
+  if (
+    !validation.userDetailsAreValid(
+      req.body.email,
+      req.body.password,
+      req.body.fullname,
+      req.body.street,
+      req.body.postal,
+      req.body.city
+    ) ||
+    !validation.emailIsConfirmed(req.body.email, req.body['confirm-email'])
+  ) {
+    sessionFlash.flashDataToSession(
+      req,
+      {
+        errorMessage:
+          'Please check your input. Password must be at least 6 character slong, postal code must be 5 characters long.',
+        ...enteredData,
+      },
+      function () {
+        res.redirect('/signup');
+      }
+    );
     return;
   }
+
   const user = new User(
     req.body.email,
     req.body.password,
@@ -57,14 +67,19 @@ async function signup(req, res, next) {
   );
 
   try {
-    const existsAlready = await user.existsAlready()
+    const existsAlready = await user.existsAlready();
+
     if (existsAlready) {
-      sessionFlash.flashDataToSession(req, {
-        errorMessage: 'User already exists! Try logging in instead.',
-        ...enteredData
-      }, function () {
-        res.redirect('/signup');
-      });
+      sessionFlash.flashDataToSession(
+        req,
+        {
+          errorMessage: 'User exists already! Try logging in instead!',
+          ...enteredData,
+        },
+        function () {
+          res.redirect('/signup');
+        }
+      );
       return;
     }
 
@@ -80,12 +95,13 @@ async function signup(req, res, next) {
 function getLogin(req, res) {
   let sessionData = sessionFlash.getSessionData(req);
 
-  if(!sessionData){
+  if (!sessionData) {
     sessionData = {
-      email : '',
-      password : ''
+      email: '',
+      password: '',
     };
   }
+
   res.render('customer/auth/login', { inputData: sessionData });
 }
 
@@ -100,16 +116,16 @@ async function login(req, res, next) {
   }
 
   const sessionErrorData = {
-    errorMessage: 'Invalid credentials. Please double-check your email and password.',
-    email:user.email,
-    password:user.password
+    errorMessage:
+      'Invalid credentials - please double-check your email and password!',
+    email: user.email,
+    password: user.password,
   };
 
   if (!existingUser) {
-    sessionFlash.flashDataToSession(req,sessionErrorData , function () {
+    sessionFlash.flashDataToSession(req, sessionErrorData, function () {
       res.redirect('/login');
     });
-    
     return;
   }
 
@@ -118,7 +134,7 @@ async function login(req, res, next) {
   );
 
   if (!passwordIsCorrect) {
-    sessionFlash.flashDataToSession(req,sessionErrorData , function () {
+    sessionFlash.flashDataToSession(req, sessionErrorData, function () {
       res.redirect('/login');
     });
     return;
@@ -139,5 +155,5 @@ module.exports = {
   getLogin: getLogin,
   signup: signup,
   login: login,
-  logout: logout
+  logout: logout,
 };
