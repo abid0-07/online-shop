@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "dev": "nodemon --watch ./ --ext js,json,ejs,css, html"
+    "dev": "nodemon --watch ./ --ext js,json,ejs,css,html"
   },
   "keywords": [],
   "author": "Abdullah Al Abid",
