@@ -19,12 +19,12 @@ async function addToCart() {
     });
   
   } catch (error) {
-    alert('Something went wrong horribly!');
+    alert('Something went wrong!');
     return;
   }
   
   if (!response.ok) {
-    alert('Something went wrong partially!');
+    alert('Something went wrong!');
     return;
   }
 
