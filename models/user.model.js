@@ -1,6 +1,7 @@
-const bcrypt = require('bcryptjs');
-
-const db = require('../data/database');
+const bcrypt = require("bcryptjs");
+const mongodb = require("mongodb");
+const { ObjectID } = require("bson");
+const db = require("../data/database");
 
 class User {
   constructor(email, password, fullname, street, postal, city) {
@@ -15,7 +16,16 @@ class User {
   }
 
   getUserWithSameEmail() {
-    return db.getDb().collection('users').findOne({ email: this.email });
+    return db.getDb().collection("users").findOne({ email: this.email });
+  }
+
+  static findById(userId) {
+    const uid = new ObjectID(userId);
+
+    return db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: uid }, { projection: { password: 0 } });
   }
 
   async existsAlready() {
@@ -29,7 +39,7 @@ class User {
   async signup() {
     const hashedPassword = await bcrypt.hash(this.password, 12);
 
-    await db.getDb().collection('users').insertOne({
+    await db.getDb().collection("users").insertOne({
       email: this.email,
       password: hashedPassword,
       name: this.name,
