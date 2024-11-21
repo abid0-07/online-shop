@@ -4,7 +4,8 @@ const ordersController = require('../controllers/orders.controller');
 
 const router = express.Router();
 
-router.post('/',ordersController.addOrder); // full routes address: "/orders/
+router.post('/', ordersController.addOrder); // /orders
 
-router.get('/', ordersController.getOrders); // full routes address: "/orders" 
+router.get('/', ordersController.getOrders); // /orders
+
 module.exports = router;
