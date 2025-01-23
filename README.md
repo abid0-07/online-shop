@@ -28,25 +28,25 @@ Error handling
 
 ##### Product View:
 
-![Customer Side 1](pictures\1.png)
+![Customer Side 1](pictures/1.png)
 
 ##### product added to card
 
-![Customer Side 2](pictures\2.png)
+![Customer Side 2](pictures/2.png)
 
 ##### Checkout
 
-![Customer Side 3](pictures\3.png)
+![Customer Side 3](pictures/3.png)
 
 ### Admin Side
 
 ##### Dashboard
 
-![Admin Side 1](pictures\4.png)
+![Admin Side 1](pictures/4.png)
 
 ##### Product approval
 
-## ![Admin Side 2](pictures\5.png)
+## ![Admin Side 2](pictures/5.png)
 
 ## Technologies Used
 
